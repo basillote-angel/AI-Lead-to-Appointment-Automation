@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Voryn Lead Capture Demo</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; }
+    body { max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #17202a; }
+    label { display: block; margin-top: 1rem; font-weight: 600; }
+    input, textarea { box-sizing: border-box; width: 100%; margin-top: .35rem; padding: .65rem; border: 1px solid #9aa7b2; border-radius: 4px; font: inherit; }
+    textarea { min-height: 8rem; resize: vertical; }
+    button { margin-top: 1.25rem; padding: .7rem 1rem; border: 0; border-radius: 4px; background: #1769aa; color: white; font: inherit; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    #result { margin-top: 1rem; padding: .75rem; white-space: pre-wrap; background: #eef3f7; border-radius: 4px; }
+    .hint { color: #52616b; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <h1>Voryn Lead Capture Demo</h1>
+  <p class="hint">Enter the n8n test webhook URL before submitting a sample lead.</p>
+
+  <form id="lead-form">
+    <label>n8n webhook URL
+      <input id="webhook-url" type="url" value="http://localhost:5678/webhook-test/voryn-lead" required>
+    </label>
+    <label>Name
+      <input name="name" value="Maria Santos" required>
+    </label>
+    <label>Email
+      <input name="email" type="email" value="maria@example.com" required>
+    </label>
+    <label>Phone
+      <input name="phone" value="+63 917 123 4567">
+    </label>
+    <label>Company
+      <input name="company" value="Santos Coffee">
+    </label>
+    <label>Service needed
+      <input name="service" value="E-commerce Website">
+    </label>
+    <label>Budget
+      <input name="budget" value="100000">
+    </label>
+    <label>Timeline
+      <input name="timeline" value="30 days">
+    </label>
+    <label>Message
+      <textarea name="message" required>We need a professional website for our coffee shop.</textarea>
+    </label>
+    <button type="submit">Send lead to n8n</button>
+  </form>
+  <div id="result" role="status">Ready to submit.</div>
+
+  <script>
+    const form = document.querySelector('#lead-form');
+    const result = document.querySelector('#result');
+    const button = form.querySelector('button');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const webhookUrl = document.querySelector('#webhook-url').value.trim();
+      const formData = new FormData(form);
+      const lead = Object.fromEntries(formData.entries());
+      delete lead['webhook-url'];
+
+      button.disabled = true;
+      result.textContent = 'Sending...';
+      try {
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(lead)
+        });
+        const text = await response.text();
+        if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${text}`);
+        result.textContent = `Success (${response.status})\n${text || 'n8n returned an empty response.'}`;
+      } catch (error) {
+        result.textContent = `Request failed\n${error.message}`;
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
