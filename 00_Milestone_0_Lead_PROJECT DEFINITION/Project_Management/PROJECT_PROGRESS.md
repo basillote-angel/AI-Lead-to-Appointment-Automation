@@ -11,9 +11,10 @@
 
 # Current Status
 
-**Current Milestone:** Milestone 0 --- Project Definition\
+**Current Milestone:** Milestone 2 --- Validation and Normalization\
 **Milestone 0 Status:** 🟢 COMPLETE\
-**Next Task:** Milestone 1 --- Lead Capture
+**Milestone 1 Status:** 🟢 COMPLETE\
+**Next Task:** Milestone 3 --- Lead Storage
 
 > This file is the day-to-day checkpoint for the project. The Master
 > Implementation Plan PDF remains the primary source of truth for the
@@ -39,25 +40,41 @@
 
 # BUILD
 
-## Milestone 1 --- Lead Capture
+## Milestone 1 — Lead Capture
 
--   [ ] **1.0** Lead capture
+Status: 🟢 COMPLETE
 
-**Status:** 🔵 NEXT
+Tasks:
+- 1.1 Create demo form/webhook flow — COMPLETE
+- 1.2 Configure HTTP POST endpoint — COMPLETE
+- 1.3 Create representative JSON lead payload — COMPLETE
+- 1.4 Inspect incoming webhook data — COMPLETE
+- 1.5 Return successful response — COMPLETE
+- 1.6 Document Lead Capture — COMPLETE
 
-**Goal:** Build a demo form/webhook flow that sends a POST request to
-n8n, create and test a representative JSON lead payload, inspect
-incoming data, and return a successful response.
+Deliverable:
+Working Lead Intake Workflow
 
-**Deliverable:** Working Lead Intake Workflow.
+Test Result:
+POST request successfully received by n8n and returned:
+
+{
+  "success": true,
+  "message": "Lead received successfully"
+}
+
+Completed: 2026-09-02
+
+Next Milestone:
+Milestone 2 — Validation & Normalization
 
 ------------------------------------------------------------------------
 
 ## Milestone 2 --- Validation and Normalization
 
--   [ ] **2.0** Validation & normalization
+-   [x] **2.0** Validation & normalization
 
-**Status:** 🔒 LOCKED
+**Status:** 🟢 COMPLETE
 
 **Goal:** Validate required fields, email format, message, and allowed
 values; normalize names, emails, phone numbers, and other inputs; detect
@@ -65,13 +82,23 @@ duplicates using a stable identifier such as email.
 
 **Deliverable:** Validated Lead Intake Workflow.
 
+Test Results:
+
+- Valid lead returned HTTP `200` with `valid: true`.
+- Missing required data returned HTTP `400`.
+- Invalid email returned HTTP `400`.
+- Unsupported service returned HTTP `400`.
+- Email was normalized to lowercase and text values were trimmed.
+
+Completed: 2026-09-03
+
 ------------------------------------------------------------------------
 
 ## Milestone 3 --- Lead Storage
 
 -   [ ] **3.0** Lead storage
 
-**Status:** 🔒 LOCKED
+**Status:** 🔵 CURRENT
 
 **Goal:** Start with a simple persistent store such as Google Sheets.
 Track lead ID, contact details, service, message, score, temperature,
