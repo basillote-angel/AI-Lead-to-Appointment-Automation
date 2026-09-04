@@ -8,7 +8,7 @@
     :root { color-scheme: light; font-family: system-ui, sans-serif; }
     body { max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #17202a; }
     label { display: block; margin-top: 1rem; font-weight: 600; }
-    input, textarea { box-sizing: border-box; width: 100%; margin-top: .35rem; padding: .65rem; border: 1px solid #9aa7b2; border-radius: 4px; font: inherit; }
+    input, textarea, select { box-sizing: border-box; width: 100%; margin-top: .35rem; padding: .65rem; border: 1px solid #9aa7b2; border-radius: 4px; font: inherit; }
     textarea { min-height: 8rem; resize: vertical; }
     button { margin-top: 1.25rem; padding: .7rem 1rem; border: 0; border-radius: 4px; background: #1769aa; color: white; font: inherit; cursor: pointer; }
     button:disabled { opacity: .6; cursor: wait; }
@@ -37,7 +37,13 @@
       <input name="company" value="Santos Coffee">
     </label>
     <label>Service needed
-      <input name="service" value="E-commerce Website">
+      <select name="service">
+        <option value="">-- Not sure yet --</option>
+        <option value="Website Design/Development">Website Design/Development</option>
+        <option value="Website Redesign">Website Redesign</option>
+        <option value="E-commerce Website" selected>E-commerce Website</option>
+        <option value="Basic Digital Marketing">Basic Digital Marketing</option>
+      </select>
     </label>
     <label>Budget
       <input name="budget" value="100000">

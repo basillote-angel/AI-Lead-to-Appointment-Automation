@@ -11,10 +11,14 @@
 
 # Current Status
 
-**Current Milestone:** Milestone 2 --- Validation and Normalization\
+**Current Milestone:** Milestone 6 --- Lead Routing\
 **Milestone 0 Status:** 🟢 COMPLETE\
 **Milestone 1 Status:** 🟢 COMPLETE\
-**Next Task:** Milestone 3 --- Lead Storage
+**Milestone 2 Status:** 🟢 COMPLETE\
+**Milestone 3 Status:** 🟢 COMPLETE\
+**Milestone 4 Status:** 🟢 COMPLETE\
+**Milestone 5 Status:** 🟢 COMPLETE\
+**Next Task:** Build and test lead routing in n8n
 
 > This file is the day-to-day checkpoint for the project. The Master
 > Implementation Plan PDF remains the primary source of truth for the
@@ -96,9 +100,9 @@ Completed: 2026-09-03
 
 ## Milestone 3 --- Lead Storage
 
--   [ ] **3.0** Lead storage
+-   [x] **3.0** Lead storage
 
-**Status:** 🔵 CURRENT
+**Status:** 🟢 COMPLETE
 
 **Goal:** Start with a simple persistent store such as Google Sheets.
 Track lead ID, contact details, service, message, score, temperature,
@@ -107,13 +111,22 @@ avoid duplicates; create or update records accordingly.
 
 **Deliverable:** Persistent Lead Database.
 
+Test Results:
+
+- Valid leads were stored in the persistent database.
+- Invalid leads bypassed storage.
+- Database-generated IDs and timestamps were confirmed.
+- Duplicate email behavior was tested using the unique email constraint.
+
+Completed: 2026-09-03
+
 ------------------------------------------------------------------------
 
 ## Milestone 4 --- AI Lead Analysis
 
--   [ ] **4.0** AI analysis
+-   [x] **4.0** AI analysis
 
-**Status:** 🔒 LOCKED
+**Status:** 🟢 COMPLETE
 
 **Goal:** Use AI to analyze unstructured lead messages and extract
 intent, service, budget, timeline, urgency, summary, and confidence.
@@ -122,19 +135,38 @@ workflow rules.
 
 **Deliverable:** AI Lead Analysis Workflow.
 
+Test Results:
+
+- Existing `leads` table was prepared with the five AI analysis columns.
+- Gemini returned structured lead analysis.
+- AI analysis was saved against the correct lead record.
+- Original customer-provided fields remained unchanged.
+- AI qualification decisions were deferred to Milestone 5.
+
+Completed: 2026-09-04
+
 ------------------------------------------------------------------------
 
 ## Milestone 5 --- Lead Scoring and Qualification
 
--   [ ] **5.0** Lead scoring
+-   [x] **5.0** Lead scoring
 
-**Status:** 🔒 LOCKED
+**Status:** 🟢 COMPLETE
 
 **Goal:** Create a business scoring model using factors such as budget,
 timeline, service fit, urgency, and information quality. Classify leads
-into HOT, WARM, or COLD.
+into HOT, WARM, or NEEDS_INFORMATION.
 
 **Deliverable:** Automated Lead Qualification Engine.
+
+Test Results:
+
+- Deterministic scoring calculated a repeatable lead score.
+- Existing `lead_score` and `lead_classification` columns were updated.
+- HOT, WARM, and NEEDS_INFORMATION classifications were tested.
+- Original lead and AI analysis fields remained unchanged.
+
+Completed: 2026-09-04
 
 ------------------------------------------------------------------------
 
@@ -142,11 +174,14 @@ into HOT, WARM, or COLD.
 
 -   [ ] **6.0** Lead routing
 
-**Status:** 🔒 LOCKED
+**Status:** 🔵 CURRENT
 
 **Goal:** Route leads according to qualification.
 
 **Deliverable:** Automated Lead Routing.
+
+Routing will send HOT leads to priority handling, WARM leads to follow-up,
+and NEEDS_INFORMATION leads to an information-request path.
 
 ------------------------------------------------------------------------
 
@@ -388,17 +423,17 @@ around automation capabilities.
 ``` text
 MILESTONE 0  — Project Definition              🟢 COMPLETE
        ↓
-MILESTONE 1  — Lead Capture                    🔵 NEXT
+MILESTONE 1  — Lead Capture                    🟢 COMPLETE
        ↓
-MILESTONE 2  — Validation & Normalization      🔒
+yMILESTONE 2  — Validation & Normalization      🟢 COMPLETE
        ↓
-MILESTONE 3  — Lead Storage                    🔒
+MILESTONE 3  — Lead Storage                    🟢 COMPLETE
        ↓
-MILESTONE 4  — AI Lead Analysis                🔒
+MILESTONE 4  — AI Lead Analysis                🟢 COMPLETE
        ↓
-MILESTONE 5  — Lead Scoring                    🔒
+MILESTONE 5  — Lead Scoring                    🟢 COMPLETE
        ↓
-MILESTONE 6  — Lead Routing                    🔒
+MILESTONE 6  — Lead Routing                    🔵 CURRENT
        ↓
 MILESTONE 7  — Notifications                   🔒
        ↓
@@ -465,7 +500,7 @@ and delivery are all part of the learning process.
 
 ## 🟢 Completed
 
-Milestone 0 --- Project Definition
+Milestones 0 through 5
 
 ``` text
 0.1 ✓ Client scenario
@@ -475,29 +510,28 @@ Milestone 0 --- Project Definition
 0.5 ✓ Requirements
 0.6 ✓ Data model
 0.7 ✓ MVP
+3.0 ✓ Lead storage
+4.0 ✓ AI lead analysis
+5.0 ✓ Lead scoring and qualification
 ```
 
-## 🔵 Next
+## 🔵 Current
 
-**Milestone 1 --- Lead Capture**
+**Milestone 6 --- Lead Routing**
 
 First implementation objective:
 
 ``` text
-Demo Lead Form
-      ↓
-HTTP POST
-      ↓
-n8n Webhook
-      ↓
-Receive JSON Lead
-      ↓
-Inspect Data
-      ↓
-Return Successful Response
+Qualified Lead
+       ↓
+Switch by Classification
+       ↓
+Priority / Follow-up / Information Request
+       ↓
+Continue to Route Action
 ```
 
-**Deliverable:** Working Lead Intake Workflow.
+**Deliverable:** Automated Lead Routing.
 
 ------------------------------------------------------------------------
 
@@ -529,5 +563,5 @@ Return Successful Response
 
 ------------------------------------------------------------------------
 
-**Last Updated:** 2026-09-01\
-**Current Checkpoint:** Milestone 0 complete → Milestone 1 next
+**Last Updated:** 2026-09-04\
+**Current Checkpoint:** Milestones 0–5 complete → Milestone 6 current

@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-09-04
+
+### Added
+- Milestone 6 lead routing guide
+
+### Completed
+- Completed Milestone 5 lead scoring and qualification
+- Advanced the project tracker to Milestone 6 lead routing
+
+## 2026-09-04
+
+### Added
+- Milestone 5 deterministic lead scoring and qualification guide
+
+### Completed
+- Completed Milestone 4 AI lead analysis
+- Advanced the project tracker to Milestone 5 lead scoring
+
+## 2026-09-03
+
+### Added
+- Milestone 4 AI lead analysis workflow guide
+
+### Completed
+- Completed Milestone 3 lead storage
+- Advanced the project tracker to Milestone 4 AI lead analysis
+
 ## 2026-09-03
 
 ### Added
