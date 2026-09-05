@@ -1,5 +1,30 @@
 # Changelog
 
+## 2026-09-05
+
+### Completed
+- Completed Milestone 8 AI-assisted customer response
+- Recorded human review before customer-facing communication
+- Advanced the project tracker to Milestone 9 follow-up
+
+## 2026-09-05
+
+### Added
+- Milestone 8 AI-assisted customer response guide
+
+### Completed
+- Completed Milestone 7 internal notifications
+- Advanced the project tracker to Milestone 8 AI response
+
+## 2026-09-05
+
+### Added
+- Milestone 7 internal notifications guide
+
+### Completed
+- Completed Milestone 6 lead routing
+- Advanced the project tracker to Milestone 7 notifications
+
 ## 2026-09-04
 
 ### Added
