@@ -11,7 +11,7 @@
 
 # Current Status
 
-**Current Milestone:** Milestone 8 --- AI Response\
+**Current Milestone:** Milestone 10 --- Appointment Lifecycle\
 **Milestone 0 Status:** 🟢 COMPLETE\
 **Milestone 1 Status:** 🟢 COMPLETE\
 **Milestone 2 Status:** 🟢 COMPLETE\
@@ -21,7 +21,7 @@
 **Milestone 6 Status:** 🟢 COMPLETE\
 **Milestone 7 Status:** 🟢 COMPLETE\
 **Milestone 8 Status:** 🟢 COMPLETE\
-**Next Task:** Milestone 9 --- Follow-up
+**Next Task:** Complete the Milestone 9 checkpoint, then build and test the Calendly appointment lifecycle and reliability controls
 
 > This file is the day-to-day checkpoint for the project. The Master
 > Implementation Plan PDF remains the primary source of truth for the
@@ -233,9 +233,9 @@ next step and appointment invitation where appropriate.
 Test Results:
 
 - Personalized response drafts were generated from lead context.
-- Drafts were reviewed before any customer-facing send.
-- Drafts preserved approved business information and avoided unsupported promises.
-- Invalid or unsafe drafts were not sent automatically.
+- Human review was required before customer-facing communication.
+- Approved business information was preserved.
+- Unsafe or invalid drafts were not sent automatically.
 
 Completed: 2026-09-05
 
@@ -253,6 +253,8 @@ response, stop when appropriate, and send follow-ups when needed.
 
 **Deliverable:** Automated Follow-Up Engine.
 
+Implementation guide: `09_Milestone_9_Follow_Up/9.0_FOLLOW_UP.md`
+
 ------------------------------------------------------------------------
 
 ## Milestone 10 --- Appointment Lifecycle
@@ -261,15 +263,17 @@ response, stop when appropriate, and send follow-ups when needed.
 -   [ ] **10.1** Confirmation
 -   [ ] **10.2** Reminders
 
-**Status:** 🔒 LOCKED
+**Status:** 🔵 NEXT IMPLEMENTATION
 
-**Goal:** Integrate an appropriate calendar solution, initially likely
-Google Calendar. Handle availability, time zones, event creation,
+Goal:** Integrate Calendly Free as the MVP scheduling solution. Handle
+availability, time zones, event creation,
 customer details, booking, rescheduling, and cancellation. Send booking
 confirmation, update lead status and appointment details, and implement
 appropriate reminders such as 24-hour and optional 1-hour reminders.
 
 **Deliverable:** Complete Appointment Lifecycle.
+
+Implementation guide: `10_Milestone_10_Appointment_Lifecycle/10.0_APPOINTMENT_LIFECYCLE.md`
 
 ------------------------------------------------------------------------
 
@@ -282,13 +286,15 @@ appropriate reminders such as 24-hour and optional 1-hour reminders.
 -   [ ] **11.2** Fallbacks
 -   [ ] **11.3** Logging
 
-**Status:** 🔒 LOCKED
+**Status:** 🟡 DOCUMENTED / PENDING IMPLEMENTATION
 
 **Goal:** Test webhook, API, AI, storage, email, calendar, invalid-data,
 duplicate, rate-limit, and credential failures. Implement detection,
 logging, retry logic, fallback paths, and human notification.
 
 **Deliverable:** Reliable Automation System.
+
+Implementation guide: `11_Milestone_11_Error_Handling_Reliability/11.0_ERROR_HANDLING_AND_RELIABILITY.md`
 
 ------------------------------------------------------------------------
 
@@ -454,7 +460,7 @@ MILESTONE 0  — Project Definition              🟢 COMPLETE
        ↓
 MILESTONE 1  — Lead Capture                    🟢 COMPLETE
        ↓
-MILESTONE 2  — Validation & Normalization      🟢 COMPLETE
+yMILESTONE 2  — Validation & Normalization      🟢 COMPLETE
        ↓
 MILESTONE 3  — Lead Storage                    🟢 COMPLETE
        ↓
@@ -529,7 +535,7 @@ and delivery are all part of the learning process.
 
 ## 🟢 Completed
 
-Milestones 0 through 7
+Milestones 0 through 8
 
 ``` text
 0.1 ✓ Client scenario
@@ -595,5 +601,5 @@ Follow-up or Stop
 
 ------------------------------------------------------------------------
 
-**Last Updated:** 2026-09-05\
+**Last Updated:** 2026-09-06\
 **Current Checkpoint:** Milestones 0–8 complete → Milestone 9 current

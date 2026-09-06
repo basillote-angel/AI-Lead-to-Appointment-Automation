@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-09-06
+
+### Added
+- Milestone 9 follow-up workflow guide
+
+### Completed
+- Synchronized Milestone 8 completion in the project tracker
+- Advanced the project tracker to Milestone 9 follow-up
+
 ## 2026-09-05
 
 ### Completed

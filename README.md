@@ -237,11 +237,15 @@ Automation Master Implementation Plan**.
 
 ### Next
 
-**Milestone 1 --- Lead Capture**
+**Milestones 10 and 11 --- Appointment Lifecycle and Reliability**
 
-The next implementation task is to build and test a demo form/webhook
-flow that sends a POST request to local n8n, using a representative JSON
-lead payload and returning a successful response.
+The next implementation task is to complete the Milestone 9 follow-up
+checkpoint, then build and test the Calendly appointment lifecycle,
+confirmation, reminders, retries, fallbacks, and structured error
+handling. The implementation guides are in:
+
+- `10_Milestone_10_Appointment_Lifecycle/10.0_APPOINTMENT_LIFECYCLE.md`
+- `11_Milestone_11_Error_Handling_Reliability/11.0_ERROR_HANDLING_AND_RELIABILITY.md`
 
 ------------------------------------------------------------------------
 
