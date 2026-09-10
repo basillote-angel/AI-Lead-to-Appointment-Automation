@@ -241,19 +241,63 @@ Completed: 2026-09-05
 
 ------------------------------------------------------------------------
 
-## Milestone 9 --- Follow-up
+Status: 🟢 COMPLETE
 
--   [ ] **9.0** Follow-up
+Goal: Implement follow-up states such as NEW, CONTACTED, WAITING, RESPONDED, FOLLOW_UP, QUALIFIED, BOOKED, and CLOSED. Wait for the scheduled follow-up time, detect lead responses or bookings, stop follow-up when appropriate, and notify the team when a lead requires follow-up.
 
-**Status:** 🔵 CURRENT
+Deliverable: Automated Follow-Up Engine.
 
-**Goal:** Implement follow-up states such as NEW, CONTACTED, WAITING,
-RESPONDED, FOLLOW_UP, QUALIFIED, BOOKED, and CLOSED. Wait, detect
-response, stop when appropriate, and send follow-ups when needed.
+Implementation guide: 09_Milestone_9_Follow_Up/9.0_FOLLOW_UP.md
 
-**Deliverable:** Automated Follow-Up Engine.
+Completed Implementation
+Lead validation and normalization are implemented.
+Valid leads are inserted into Supabase.
+AI analysis and lead qualification are completed before follow-up routing.
+Leads are routed by classification into:
+Set Priority Route
+Set Follow-Up Route
+Set Information Request Route
+Set Manual Review Route
+Approved first-response workflow is implemented:
+Gemini — Draft Response
+Code — Validate Draft
+SEND APPROVAL TO THE TEAM
+Update Lead — Contacted
+Follow-up scheduling is implemented through:
+Wait — Follow-Up Time
+Get Current Lead Status
+IF — Should Follow Up?
 
-Implementation guide: `09_Milestone_9_Follow_Up/9.0_FOLLOW_UP.md`
+The follow-up due condition is implemented using deterministic time comparison:
+
+new Date(next_follow_up).getTime() <= Date.now()
+The TRUE follow-up branch is implemented:
+Prepare Follow-Up Notification
+Send Follow-Up Alert
+Update Lead — Follow-Up
+Follow-up stop conditions have been implemented and tested.
+Follow-up count handling has been implemented and tested.
+Due follow-up behavior has been tested.
+Responded lead behavior has been tested.
+Booked lead behavior has been tested.
+Maximum follow-up behavior has been tested.
+Invalid lead handling has been tested.
+Customer-facing follow-up messages are not automatically sent without approval; the first implementation uses internal team notification.
+Testing Configuration
+
+Wait — Follow-Up Time: 1 minute
+
+The 1-minute delay is intentionally configured for testing purposes so the follow-up workflow can be verified without waiting for long production intervals. This is a temporary testing value and can be changed later for production deployment.
+
+M9 Completion
+
+All required Milestone 9 implementation and testing have been completed.
+
+Completed: 2026-09-08
+
+Final milestone status: 🟢 COMPLETE
+
+Next Milestone: Milestone 10 — Appointment Lifecycle
 
 ------------------------------------------------------------------------
 

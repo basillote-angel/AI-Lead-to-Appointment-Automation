@@ -1,0 +1,193 @@
+# Milestone 11 — Error Handling and Reliability
+
+## Objective
+
+Ensure failures are visible, bounded, recoverable, and routed to a human when automation cannot safely continue. The workflow must never silently lose a lead, send a duplicate customer message, or mark aan appointment as booked without verified provider data.
+
+## Reliability Rules
+
+1. Validate before mutating the database.
+2. Make external-event processing idempotent.
+3. Retry only transient failures.
+4. Do not retry invalid data, rejected credentials, or unsafe customer messages automatically.
+5. Record each failure with enough context to reproduce it without storing secrets.
+6. Escalate after the retry limit or whenever business state is uncertain.
+7. Keep the original lead payload and provider event ID available for investigation.
+
+## Failure Classification
+
+| Failure | Examples | Default action |
+| --- | --- | --- |
+| Input | missing email, malformed Calendly event | reject and log; no retry |
+| Duplicate | existing email or processed provider event | resolve idempotently; no duplicate action |
+| Transient API | timeout, 429, temporary 5xx | bounded retry with backoff |
+| Permanent API | 4xx validation error | log and escalate; no automatic retry |
+| Credential | expired OAuth, invalid API key | stop affected branch and notify owner |
+| AI | timeout, malformed JSON, low confidence | retry once if transient, then manual review |
+| Storage | database timeout, constraint failure | retry transiently; preserve payload; escalate if unresolved |
+| Notification | email provider timeout or rejection | retry transiently; do not repeat business mutation |
+| Calendar | webhook mismatch, provider outage | log event; keep appointment state uncertain until verified |
+| Rate limit | provider or model quota exceeded | honor retry-after when available; otherwise back off and escalate |
+
+## Structured Error Record
+
+Every handled failure should produce one structured record. Use an n8n execution log during the first implementation; a dedicated `automation_errors` table can be added when persistent reporting is needed.
+
+Recommended fields:
+
+```text
+error_id
+occurred_at
+workflow_name
+execution_id
+lead_id
+provider_event_id
+operation
+error_category
+error_code
+message_safe
+retry_count
+next_retry_at
+resolved_at
+resolution_status
+```
+
+`message_safe` must not contain API keys, OAuth tokens, passwords, full webhook secrets, or unnecessary customer data. Store the n8n execution ID so the detailed execution can be inspected securely.
+
+## Retry Policy
+
+Use bounded retries, not infinite loops:
+
+| Operation | Retries | Backoff | Notes |
+| --- | ---: | --- | --- |
+| Supabase read/write timeout | 3 | 30s, 2m, 10m | Re-read before repeating a mutation |
+| Calendly API/webhook lookup | 3 | 1m, 5m, 15m | Stop on invalid payload or 4xx |
+| Gmail notification | 3 | 1m, 5m, 15m | Use an idempotency key where possible |
+| Gemini analysis/draft | 1 | 30s | Reject malformed output; route to review |
+| Customer confirmation | 2 | 5m, 30m | Never resend after confirmed delivery without checking state |
+
+For HTTP 429 responses, honor the provider's `Retry-After` value when it is present. For timeouts, retry only when the operation is known to be safe or can be checked by an idempotency key.
+
+## n8n Implementation Pattern
+
+```text
+Main workflow
+   ↓
+Operation node
+   ├── success → persist result → continue
+   └── failure → classify error
+                    ├── transient and attempts remain → Wait → retry
+                    ├── duplicate → verify current state → continue or stop
+                    └── permanent/unknown → log → notify team → manual review
+```
+
+Use node-level error outputs where available and an n8n Error Trigger workflow for unhandled execution failures. The error workflow should capture the execution ID, workflow name, node name, timestamp, and safe error message, then notify the internal owner.
+
+Do not connect every failure directly to a customer-facing response. The fallback must preserve the lead and make the next human action explicit.
+
+## Fallbacks
+
+### Validation failure
+
+Return the existing HTTP `400` response with `valid: false` and an `errors` array. Do not store or schedule the invalid lead.
+
+### Duplicate lead
+
+Look up the existing normalized email and update or notify according to the storage rule. Do not create a second lead record.
+
+### AI failure
+
+Keep the lead stored, set the analysis path to manual review, notify the team, and do not score or send an AI-generated response from incomplete output.
+
+### Calendar failure
+
+Keep the lead eligible for manual scheduling, set `appointment_status` to `FAILED` when the state is known, and notify the team with the provider event ID. Do not mark the lead `BOOKED` based only on a link click or an unverified webhook.
+
+### Email failure
+
+Persist the business state first. Retry the notification separately so a message failure cannot repeat a booking update or follow-up increment. Escalate if confirmation cannot be delivered.
+
+### Unknown failure
+
+Stop the affected branch, preserve the input reference, create a structured error record, and notify the owner. Unknown failures must not be treated as successful completion.
+
+## Idempotency Requirements
+
+Use a stable key for each externally triggered action:
+
+- intake: normalized email plus source submission ID when available
+- Calendly event: provider event ID plus event type
+- confirmation: lead ID plus appointment provider event ID
+- follow-up: lead ID plus follow-up count and scheduled time
+- notification: business event ID plus notification type
+
+Before repeating an operation, read current lead state and check whether the intended result already exists.
+
+## Data Integrity Prerequisite
+
+Before enabling the Milestone 9 and 10 workflows, reconcile the status values used by the guides with the database constraint. The current SQL permits `NEW`, `ANALYZED`, `QUALIFIED`, `CONTACTED`, `FOLLOW_UP`, `BOOKED`, and `CLOSED`, while the follow-up design also uses `WAITING` and `RESPONDED`. Choose one canonical set, migrate the constraint deliberately, and test existing rows before activation.
+
+## Test Checklist
+
+### Test 1 — Temporary API failure
+
+Expected:
+
+- The operation retries at the configured intervals.
+- The same business mutation is not duplicated.
+- Final failure creates a structured error and internal alert.
+
+### Test 2 — Invalid input
+
+Expected:
+
+- No retry occurs.
+- The caller receives the normal validation response.
+- No lead, appointment, or notification is created.
+
+### Test 3 — Duplicate webhook
+
+Expected:
+
+- The event is recognized by provider event ID.
+- Lead state and customer messages are not duplicated.
+
+### Test 4 — Credential failure
+
+Expected:
+
+- The branch stops visibly.
+- The credential value is not written to logs.
+- The owner receives a remediation alert.
+
+### Test 5 — AI malformed output
+
+Expected:
+
+- The output fails schema validation.
+- No score or customer response is generated from it.
+- The lead is routed to manual review.
+
+### Test 6 — Confirmation failure after booking
+
+Expected:
+
+- The appointment remains recorded as booked.
+- Confirmation delivery is retried independently.
+- The team is notified if delivery remains unresolved.
+
+## Definition of Done
+
+- [ ] Failure categories and retry rules are documented.
+- [ ] Transient operations use bounded retries with backoff.
+- [ ] Invalid and permanent failures do not loop.
+- [ ] Duplicate lead and webhook processing is idempotent.
+- [ ] An n8n Error Trigger path records unhandled failures.
+- [ ] Safe error details and execution IDs are logged.
+- [ ] Human notification exists for exhausted retries and unknown state.
+- [ ] Calendar, email, AI, storage, webhook, credential, rate-limit, and invalid-data cases are tested.
+- [ ] The status constraint mismatch is resolved before dependent workflows are activated.
+
+## Next Milestone
+
+Milestone 12 will review credentials, webhook protection, access control, sensitive data exposure, and backups.
