@@ -178,7 +178,7 @@ Expected:
 
 ## Definition of Done
 
-- [ ] Failure categories and retry rules are documented.
+- [x] Failure categories and retry rules are documented.
 - [ ] Transient operations use bounded retries with backoff.
 - [ ] Invalid and permanent failures do not loop.
 - [ ] Duplicate lead and webhook processing is idempotent.
