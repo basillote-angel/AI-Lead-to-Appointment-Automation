@@ -179,10 +179,10 @@ Expected:
 ## Definition of Done
 
 - [x] Failure categories and retry rules are documented.
-- [ ] Transient operations use bounded retries with backoff.
-- [ ] Invalid and permanent failures do not loop.
-- [ ] Duplicate lead and webhook processing is idempotent.
-- [ ] An n8n Error Trigger path records unhandled failures.
+- [x] Transient operations use bounded retries with backoff.
+- [x] Invalid and permanent failures do not loop.
+- [x] Duplicate lead and webhook processing is idempotent.
+- [x] An n8n Error Trigger path records unhandled failures.
 - [ ] Safe error details and execution IDs are logged.
 - [ ] Human notification exists for exhausted retries and unknown state.
 - [ ] Calendar, email, AI, storage, webhook, credential, rate-limit, and invalid-data cases are tested.
