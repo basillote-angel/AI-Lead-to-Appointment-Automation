@@ -183,10 +183,10 @@ Expected:
 - [x] Invalid and permanent failures do not loop.
 - [x] Duplicate lead and webhook processing is idempotent.
 - [x] An n8n Error Trigger path records unhandled failures.
-- [ ] Safe error details and execution IDs are logged.
-- [ ] Human notification exists for exhausted retries and unknown state.
-- [ ] Calendar, email, AI, storage, webhook, credential, rate-limit, and invalid-data cases are tested.
-- [ ] The status constraint mismatch is resolved before dependent workflows are activated.
+- [x] Safe error details and execution IDs are logged.
+- [x] Human notification exists for exhausted retries and unknown state.
+- [x] Calendar, email, AI, storage, webhook, credential, rate-limit, and invalid-data cases are tested.
+- [x] The status constraint mismatch is resolved before dependent workflows are activated.
 
 ## Next Milestone
 
