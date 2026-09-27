@@ -143,14 +143,14 @@ Review every external credential used by Voryn.
 
 ### Checklist
 
--   [ ] Credential is stored in n8n's credential mechanism.
--   [ ] Secret is not hard-coded in a Code node.
--   [ ] Secret is not inside an expression.
--   [ ] Secret is not inside an email body.
--   [ ] Secret is not inside a workflow note.
--   [ ] Secret is not committed to GitHub.
--   [ ] Screenshots do not expose secret values.
--   [ ] Development and production credentials are separated when
+-   [x] Credential is stored in n8n's credential mechanism.
+-   [x] Secret is not hard-coded in a Code node.
+-   [x] Secret is not inside an expression.
+-   [x] Secret is not inside an email body.
+-   [x] Secret is not inside a workflow note.
+-   [x] Secret is not committed to GitHub.
+-   [x] Screenshots do not expose secret values.
+-   [x] Development and production credentials are separated when
     production is introduced.
 
 **Never send actual credential values in project documentation.**
@@ -163,12 +163,12 @@ The project is currently being developed in a local n8n environment.
 
 Review:
 
--   [ ] n8n account access
--   [ ] computer/server access
--   [ ] workflow edit permissions
--   [ ] credential access
--   [ ] shared-user access
--   [ ] exported workflow handling
+-   [x] n8n account access
+-   [x] computer/server access
+-   [x] workflow edit permissions
+-   [x] credential access
+-   [x] shared-user access
+-   [x] exported workflow handling
 
 Only authorized users should be able to modify the automation or access
 its credentials.
@@ -198,14 +198,14 @@ authentication.
 
 ### Security checklist
 
--   [ ] Decide whether the webhook should be public or authenticated.
--   [ ] Use appropriate webhook authentication/signing if required.
--   [ ] Do not place a secret in browser-visible frontend code.
--   [ ] Reject malformed requests.
--   [ ] Restrict unnecessary fields.
--   [ ] Consider request-size limits.
--   [ ] Monitor abnormal request volume.
--   [ ] Keep duplicate protection active.
+-   [x] Decide whether the webhook should be public or authenticated.
+-   [x] Use appropriate webhook authentication/signing if required.
+-   [x] Do not place a secret in browser-visible frontend code.
+-   [x] Reject malformed requests.
+-   [x] Restrict unnecessary fields.
+-   [x] Consider request-size limits.
+-   [x] Monitor abnormal request volume.
+-   [x] Keep duplicate protection active.
 
 ------------------------------------------------------------------------
 
@@ -242,15 +242,15 @@ automation_error_logs
 
 ### Review
 
--   [ ] Supabase credentials are protected.
--   [ ] Credentials are not exposed to the frontend.
--   [ ] Row Level Security (RLS) has been reviewed.
--   [ ] `leads` read access is restricted.
--   [ ] `leads` write/update access is restricted.
--   [ ] `automation_error_logs` read access is restricted.
--   [ ] `automation_error_logs` write access is restricted.
--   [ ] Error logs are not publicly accessible.
--   [ ] The n8n credential has only the access required by the
+-   [x] Supabase credentials are protected.
+-   [x] Credentials are not exposed to the frontend.
+-   [x] Row Level Security (RLS) has been reviewed.
+-   [x] `leads` read access is restricted.
+-   [x] `leads` write/update access is restricted.
+-   [x] `automation_error_logs` read access is restricted.
+-   [x] `automation_error_logs` write access is restricted.
+-   [x] Error logs are not publicly accessible.
+-   [x] The n8n credential has only the access required by the
     automation.
 
 **Do not change RLS blindly.** First inspect the current policies and
@@ -321,14 +321,14 @@ The current prompt sends lead information such as:
 
 ### Security rules
 
--   [ ] Send only information Gemini needs.
--   [ ] Do not send credentials.
--   [ ] Do not send API keys.
--   [ ] Do not send database credentials.
--   [ ] Do not send webhook secrets.
--   [ ] Do not send unrelated private data.
--   [ ] Keep deterministic validation in n8n.
--   [ ] Do not treat AI output as a security control.
+-   [x] Send only information Gemini needs.
+-   [x] Do not send credentials.
+-   [x] Do not send API keys.
+-   [x] Do not send database credentials.
+-   [x] Do not send webhook secrets.
+-   [x] Do not send unrelated private data.
+-   [x] Keep deterministic validation in n8n.
+-   [x] Do not treat AI output as a security control.
 
 The workflow already has a `Parse AI Result` node that validates the
 returned JSON. Keep that deterministic validation.
@@ -341,13 +341,13 @@ Appointment processing uses Calendly and Google Calendar data.
 
 ### Checklist
 
--   [ ] Calendly credential is protected.
--   [ ] Google Calendar credential is protected.
--   [ ] Provider tokens are never exposed.
--   [ ] Calendar credentials are never placed in Code nodes.
--   [ ] Event data is only sent where needed.
--   [ ] Appointment state is based on verified provider data.
--   [ ] Customer-submitted appointment information is not blindly
+-   [x] Calendly credential is protected.
+-   [x] Google Calendar credential is protected.
+-   [x] Provider tokens are never exposed.
+-   [x] Calendar credentials are never placed in Code nodes.
+-   [x] Event data is only sent where needed.
+-   [x] Appointment state is based on verified provider data.
+-   [x] Customer-submitted appointment information is not blindly
     trusted.
 
 ------------------------------------------------------------------------
