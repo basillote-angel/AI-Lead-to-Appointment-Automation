@@ -2,7 +2,7 @@
 
 ## 12.0 Security
 
-**Status:** 🔵 NEXT IMPLEMENTATION
+**Status:** 🟡 IN PROGRESS — EXPORT AUDIT
 
 **Goal:** Harden the Voryn AI Lead-to-Appointment Automation against
 credential exposure, unauthorized webhook access, excessive data
@@ -24,7 +24,7 @@ The project already has:
 -   Supabase lead storage
 -   Gemini AI analysis
 -   Calendly appointment processing
--   Google Calendar integration
+-   Calendly polling integration
 -   Gmail notifications and customer emails
 -   Reminder processing
 -   Error Handler workflow
@@ -51,8 +51,9 @@ The workflow validates and normalizes incoming lead information before
 inserting it into the Supabase `leads` table.
 
 It also contains Gemini analysis, Supabase storage/update operations,
-Calendly event processing, Google Calendar processing, customer/internal
-email notifications, follow-up logic, and reminder processing.
+Calendly event processing, customer/internal email notifications,
+follow-up logic, and reminder processing. The supplied export does not
+contain a Google Calendar node.
 
 These components handle both business data and external credentials.
 
@@ -198,13 +199,13 @@ authentication.
 
 ### Security checklist
 
--   [x] Decide whether the webhook should be public or authenticated.
--   [x] Use appropriate webhook authentication/signing if required.
+-   [ ] Decide whether the webhook should be public or authenticated.
+-   [ ] Use appropriate webhook authentication/signing if required.
 -   [x] Do not place a secret in browser-visible frontend code.
 -   [x] Reject malformed requests.
 -   [x] Restrict unnecessary fields.
--   [x] Consider request-size limits.
--   [x] Monitor abnormal request volume.
+-   [ ] Consider request-size limits.
+-   [ ] Monitor abnormal request volume.
 -   [x] Keep duplicate protection active.
 
 ------------------------------------------------------------------------
@@ -244,13 +245,13 @@ automation_error_logs
 
 -   [x] Supabase credentials are protected.
 -   [x] Credentials are not exposed to the frontend.
--   [x] Row Level Security (RLS) has been reviewed.
--   [x] `leads` read access is restricted.
--   [x] `leads` write/update access is restricted.
--   [x] `automation_error_logs` read access is restricted.
--   [x] `automation_error_logs` write access is restricted.
--   [x] Error logs are not publicly accessible.
--   [x] The n8n credential has only the access required by the
+-   [ ] Row Level Security (RLS) has been reviewed.
+-   [ ] `leads` read access is restricted.
+-   [ ] `leads` write/update access is restricted.
+-   [ ] `automation_error_logs` read access is restricted.
+-   [ ] `automation_error_logs` write access is restricted.
+-   [ ] Error logs are not publicly accessible.
+-   [ ] The n8n credential has only the access required by the
     automation.
 
 **Do not change RLS blindly.** First inspect the current policies and
@@ -335,14 +336,15 @@ returned JSON. Keep that deterministic validation.
 
 ------------------------------------------------------------------------
 
-# 11. M12.8 --- Calendly and Google Calendar Security
+# 11. M12.8 --- Calendly Security
 
-Appointment processing uses Calendly and Google Calendar data.
+Appointment processing in the supplied export uses Calendly data through
+HTTP requests. Google Calendar is not part of the current workflow.
 
 ### Checklist
 
 -   [x] Calendly credential is protected.
--   [x] Google Calendar credential is protected.
+-   [ ] Google Calendar credential is protected (not applicable to the current export).
 -   [x] Provider tokens are never exposed.
 -   [x] Calendar credentials are never placed in Code nodes.
 -   [x] Event data is only sent where needed.
@@ -467,8 +469,8 @@ For local development:
 -   [ ] Keep secrets outside source code.
 -   [ ] Protect `.env` files.
 -   [ ] Add `.env` to `.gitignore`.
--   [ ] Never upload `.env`.
--   [ ] Never put real credentials in documentation.
+-   [x] Never upload `.env`.
+-   [x] Never put real credentials in documentation.
 
 Recommended patterns where applicable:
 
@@ -498,9 +500,9 @@ Do not casually back up raw credentials.
 ### Backup checklist
 
 -   [ ] Workflow JSON backed up
--   [ ] Supabase schema/SQL backed up
--   [ ] Documentation backed up
--   [ ] Credentials excluded
+-   [x] Supabase schema/SQL backed up
+-   [x] Documentation backed up
+-   [x] Credentials excluded
 -   [ ] Backup location access restricted
 -   [ ] Restore process documented
 
@@ -686,7 +688,7 @@ Follow this order:
 -   [ ] **12.13** Backup security
 -   [ ] **12.14** Security testing
 
-**Status:** 🔵 NEXT IMPLEMENTATION
+**Status:** 🟡 IN PROGRESS — EVIDENCE REVIEW
 
 ------------------------------------------------------------------------
 
@@ -777,7 +779,7 @@ Never document the actual secret value.
 
 ``` text
 Milestone 11 — Error Handling & Reliability    🟢 COMPLETE
-Milestone 12 — Security                        🔵 NEXT
+Milestone 12 — Security                        🟡 IN PROGRESS
 Milestone 13 — Full End-to-End Testing         ⬜
 Milestone 14 — Production Deployment           ⬜
 Milestone 15 — Monitoring & Maintenance        ⬜

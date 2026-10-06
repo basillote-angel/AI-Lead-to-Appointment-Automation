@@ -2,7 +2,7 @@
 
 ## Objective
 
-Ensure failures are visible, bounded, recoverable, and routed to a human when automation cannot safely continue. The workflow must never silently lose a lead, send a duplicate customer message, or mark aan appointment as booked without verified provider data.
+Ensure failures are visible, bounded, recoverable, and routed to a human when automation cannot safely continue. The workflow must never silently lose a lead, send a duplicate customer message, or mark an appointment as booked without verified provider data.
 
 ## Reliability Rules
 
@@ -187,6 +187,26 @@ Expected:
 - [x] Human notification exists for exhausted retries and unknown state.
 - [x] Calendar, email, AI, storage, webhook, credential, rate-limit, and invalid-data cases are tested.
 - [x] The status constraint mismatch is resolved before dependent workflows are activated.
+
+## Exported Workflow Audit
+
+The main export is active and points to the supplied Error Trigger
+workflow. The error workflow creates a structured record, writes to
+`automation_error_logs`, and sends an internal email alert.
+
+The exported implementation is not yet fully reliable:
+
+- The error handler copies `error.message` directly into
+   `message_safe`; it must redact credentials, authorization headers,
+   tokens, and other sensitive values before database insertion or email.
+- Error logging and alerting are sequential. If the Supabase log write
+   fails, the internal alert is never reached.
+- The error handler itself has no retry settings in the export, so its
+   database and email operations need independent failure handling.
+- The handler does not populate every recommended field, including
+   `lead_id`, `provider_event_id`, `operation`, and `next_retry_at`.
+- Retry settings exist on several main-workflow nodes, but the retry
+   policy is not consistently bounded and documented per operation.
 
 ## Next Milestone
 

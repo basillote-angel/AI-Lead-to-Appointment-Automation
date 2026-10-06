@@ -235,17 +235,19 @@ Automation Master Implementation Plan**.
 
 **Milestone 0: COMPLETE**
 
-### Next
+### Current Checkpoint
 
-**Milestones 10 and 11 --- Appointment Lifecycle and Reliability**
+**Milestone 12 --- Security Review**
 
-The next implementation task is to complete the Milestone 9 follow-up
-checkpoint, then build and test the Calendly appointment lifecycle,
-confirmation, reminders, retries, fallbacks, and structured error
-handling. The implementation guides are in:
+Milestones 0 through 9 are complete. The exported Milestone 10 and 11
+workflow paths are implemented but require the documented corrections
+before they are marked complete. The current task is to audit webhook
+exposure, database access, credentials, sensitive data in logs and
+exports, and backup handling. The guides are in:
 
 - `10_Milestone_10_Appointment_Lifecycle/10.0_APPOINTMENT_LIFECYCLE.md`
-- `11_Milestone_11_Error_Handling_Reliability/11.0_ERROR_HANDLING_AND_RELIABILITY.md`
+- `11_Milestone_11_Error_Handling_Reliability/Error Handling and Reliability.md`
+- `12_Milestone_12_Security/12_SECURITY.md`
 
 ------------------------------------------------------------------------
 

@@ -11,7 +11,7 @@
 
 # Current Status
 
-**Current Milestone:** Milestone 10 --- Appointment Lifecycle\
+**Current Milestone:** Milestone 12 --- Security Review\
 **Milestone 0 Status:** 🟢 COMPLETE\
 **Milestone 1 Status:** 🟢 COMPLETE\
 **Milestone 2 Status:** 🟢 COMPLETE\
@@ -21,7 +21,7 @@
 **Milestone 6 Status:** 🟢 COMPLETE\
 **Milestone 7 Status:** 🟢 COMPLETE\
 **Milestone 8 Status:** 🟢 COMPLETE\
-**Next Task:** Complete the Milestone 9 checkpoint, then build and test the Calendly appointment lifecycle and reliability controls
+**Next Task:** Resolve the documented Milestone 10/11 workflow defects, then complete the Milestone 12 security audit
 
 > This file is the day-to-day checkpoint for the project. The Master
 > Implementation Plan PDF remains the primary source of truth for the
@@ -241,81 +241,51 @@ Completed: 2026-09-05
 
 ------------------------------------------------------------------------
 
-Status: 🟢 COMPLETE
+## Milestone 9 --- Follow-up
 
-Goal: Implement follow-up states such as NEW, CONTACTED, WAITING, RESPONDED, FOLLOW_UP, QUALIFIED, BOOKED, and CLOSED. Wait for the scheduled follow-up time, detect lead responses or bookings, stop follow-up when appropriate, and notify the team when a lead requires follow-up.
+-   [x] **9.0** Follow-up
 
-Deliverable: Automated Follow-Up Engine.
+**Status:** 🟢 COMPLETE
 
-Implementation guide: 09_Milestone_9_Follow_Up/9.0_FOLLOW_UP.md
+**Goal:** Implement follow-up states such as NEW, CONTACTED, WAITING,
+RESPONDED, FOLLOW_UP, QUALIFIED, BOOKED, and CLOSED. Wait, detect
+response, stop when appropriate, and send follow-ups when needed.
 
-Completed Implementation
-Lead validation and normalization are implemented.
-Valid leads are inserted into Supabase.
-AI analysis and lead qualification are completed before follow-up routing.
-Leads are routed by classification into:
-Set Priority Route
-Set Follow-Up Route
-Set Information Request Route
-Set Manual Review Route
-Approved first-response workflow is implemented:
-Gemini — Draft Response
-Code — Validate Draft
-SEND APPROVAL TO THE TEAM
-Update Lead — Contacted
-Follow-up scheduling is implemented through:
-Wait — Follow-Up Time
-Get Current Lead Status
-IF — Should Follow Up?
+**Deliverable:** Automated Follow-Up Engine.
 
-The follow-up due condition is implemented using deterministic time comparison:
-
-new Date(next_follow_up).getTime() <= Date.now()
-The TRUE follow-up branch is implemented:
-Prepare Follow-Up Notification
-Send Follow-Up Alert
-Update Lead — Follow-Up
-Follow-up stop conditions have been implemented and tested.
-Follow-up count handling has been implemented and tested.
-Due follow-up behavior has been tested.
-Responded lead behavior has been tested.
-Booked lead behavior has been tested.
-Maximum follow-up behavior has been tested.
-Invalid lead handling has been tested.
-Customer-facing follow-up messages are not automatically sent without approval; the first implementation uses internal team notification.
-Testing Configuration
-
-Wait — Follow-Up Time: 1 minute
-
-The 1-minute delay is intentionally configured for testing purposes so the follow-up workflow can be verified without waiting for long production intervals. This is a temporary testing value and can be changed later for production deployment.
-
-M9 Completion
-
-All required Milestone 9 implementation and testing have been completed.
+Implementation guide: `09_Milestone_9_Follow_Up/9.0_FOLLOW_UP.md`
 
 Completed: 2026-09-08
 
-Final milestone status: 🟢 COMPLETE
-
-Next Milestone: Milestone 10 — Appointment Lifecycle
+Implementation evidence: the active n8n workflow contains lead-contacted
+state updates, a wait/check branch, due-follow-up notification, count
+increment, and Calendly appointment polling. Remaining reliability gaps
+are documented in the Milestone 9 and Milestone 11 guides.
 
 ------------------------------------------------------------------------
 
 ## Milestone 10 --- Appointment Lifecycle
 
--   10.0 Appointment Booking
+-   [ ] **10.0** Appointment booking
+-   [ ] **10.1** Confirmation
+-   [ ] **10.2** Reminders
 
--   10.1 Confirmation
+**Status:** 🟡 IMPLEMENTED / NEEDS CORRECTION
 
--   10.2 Reminders
+Goal:** Integrate Calendly Free as the MVP scheduling solution. Handle
+availability, time zones, event creation,
+customer details, booking, rescheduling, and cancellation. Send booking
+confirmation, update lead status and appointment details, and implement
+appropriate reminders such as 24-hour and optional 1-hour reminders.
 
-Status: 🟢 COMPLETE
-
-Goal: Integrate Calendly Free as the MVP scheduling solution, including booking, webhook validation, appointment updates, confirmation, cancellation, rescheduling, timezone handling, and reminders.
-
-Deliverable: Complete Appointment Lifecycle.
+**Deliverable:** Complete Appointment Lifecycle.
 
 Implementation guide: `10_Milestone_10_Appointment_Lifecycle/10.0_APPOINTMENT_LIFECYCLE.md`
+
+Implementation evidence: the workflow polls Calendly, retrieves invitees
+and event details, matches a lead by email, updates appointment fields,
+sends notifications, and performs a reminder check. The appointment
+update currently contains an invalid `=calendar_event_id` field ID.
 
 ------------------------------------------------------------------------
 
@@ -323,20 +293,25 @@ Implementation guide: `10_Milestone_10_Appointment_Lifecycle/10.0_APPOINTMENT_LI
 
 ## Milestone 11 --- Error Handling and Reliability
 
-- [x] 11.0 Error handling
-- [x] 11.1 Retry logic
-- [x] 11.2 Fallbacks
-- [x] 11.3 Logging
+-   [ ] **11.0** Error handling
+-   [ ] **11.1** Retry logic
+-   [ ] **11.2** Fallbacks
+-   [ ] **11.3** Logging
 
-Status: 🟢 COMPLETE
+**Status:** 🟡 IMPLEMENTED / NEEDS CORRECTION
 
 **Goal:** Test webhook, API, AI, storage, email, calendar, invalid-data,
 duplicate, rate-limit, and credential failures. Implement detection,
 logging, retry logic, fallback paths, and human notification.
 
-Deliverable: Reliable Automation System ✅
+**Deliverable:** Reliable Automation System.
 
-Implementation guide: `11_Milestone_11_Error_Handling_Reliability/11.0_ERROR_HANDLING_AND_RELIABILITY.md`
+Implementation guide: `11_Milestone_11_Error_Handling_Reliability/Error Handling and Reliability.md`
+
+Implementation evidence: the main workflow is linked to the exported
+Error Trigger workflow, which formats an error record, writes to
+`automation_error_logs`, and sends an internal alert. The handler still
+needs safe-message sanitization and independent fallback behavior.
 
 ------------------------------------------------------------------------
 
@@ -344,7 +319,7 @@ Implementation guide: `11_Milestone_11_Error_Handling_Reliability/11.0_ERROR_HAN
 
 -   [ ] **12.0** Security
 
-**Status:** 🔒 LOCKED
+**Status:** 🔵 CURRENT
 
 **Goal:** Protect API keys, OAuth credentials, webhook secrets, client
 information, and database credentials. Review environment variables,
@@ -643,5 +618,5 @@ Follow-up or Stop
 
 ------------------------------------------------------------------------
 
-**Last Updated:** 2026-09-06\
-**Current Checkpoint:** Milestones 0–8 complete → Milestone 9 current
+**Last Updated:** 2026-10-04\
+**Current Checkpoint:** Milestones 0–9 complete → Milestones 10–11 need correction → Milestone 12 current
