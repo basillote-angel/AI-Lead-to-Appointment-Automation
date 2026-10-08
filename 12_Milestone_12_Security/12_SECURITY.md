@@ -199,13 +199,23 @@ authentication.
 
 ### Security checklist
 
--   [ ] Decide whether the webhook should be public or authenticated.
+-   [x] Decide whether the webhook should be public or authenticated.
+  - Decision: Keep the webhook public for V1 because it is called directly by the browser-based lead form.
+  - Production hardening: Additional webhook authentication/signing will be reviewed before final production deployment.
+
 -   [ ] Use appropriate webhook authentication/signing if required.
+  - Status: Deferred to Production Hardening / V2.
+  - Reason: Authentication is not currently implemented for the public browser-facing webhook.
 -   [x] Do not place a secret in browser-visible frontend code.
 -   [x] Reject malformed requests.
 -   [x] Restrict unnecessary fields.
 -   [ ] Consider request-size limits.
+  - Status: Not implemented yet.
+  - Note: The workflow has input validation, including a 5,000-character message limit, but a webhook-level request-size limit has not been configured.
+
 -   [ ] Monitor abnormal request volume.
+  - Status: Not implemented yet.
+  - Note: No request-volume monitoring or alerting has been configured yet.
 -   [x] Keep duplicate protection active.
 
 ------------------------------------------------------------------------

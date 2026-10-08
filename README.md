@@ -237,17 +237,23 @@ Automation Master Implementation Plan**.
 
 ### Current Checkpoint
 
-**Milestone 12 --- Security Review**
+**Milestone 13 --- Full End-to-End Testing**
 
-Milestones 0 through 9 are complete. The exported Milestone 10 and 11
-workflow paths are implemented but require the documented corrections
-before they are marked complete. The current task is to audit webhook
-exposure, database access, credentials, sensitive data in logs and
-exports, and backup handling. The guides are in:
+Milestones 0 through 9 are complete. Milestones 10 and 11 require the
+documented corrections, and Milestone 12 remains a security prerequisite.
+The current task is to execute the full test matrix and record evidence
+for normal, failure, appointment, and security scenarios. The guides are
+in:
 
 - `10_Milestone_10_Appointment_Lifecycle/10.0_APPOINTMENT_LIFECYCLE.md`
 - `11_Milestone_11_Error_Handling_Reliability/Error Handling and Reliability.md`
 - `12_Milestone_12_Security/12_SECURITY.md`
+- `13_Milestone_13_Full_End_to_End_Testing/13.0_FULL_END_TO_END_TESTING.md`
+- `14_Milestone_14_Production_Deployment/14.0_PRODUCTION_DEPLOYMENT.md`
+- `15_Milestone_15_Monitoring_Maintenance/15.0_MONITORING_AND_MAINTENANCE.md`
+- `16_Milestone_16_Final_System_Documentation/16.0_FINAL_SYSTEM_DOCUMENTATION.md`
+- `17_Milestone_17_Portfolio_Demonstration/17.0_PORTFOLIO_DEMONSTRATION.md`
+- `18_Milestone_18_Productize_Project/18.0_PRODUCTIZE_PROJECT.md`
 
 ------------------------------------------------------------------------
 
